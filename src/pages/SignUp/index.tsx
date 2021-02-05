@@ -3,6 +3,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import * as Yup from 'yup';
+import api from '../../services/api';
 
 import { Container, Title, BackToSignIn, BackToSignInText } from './styles';
 
@@ -48,6 +49,14 @@ const SignUp: React.FC = () => {
       await schema.validate(data, {
         abortEarly: false,
       });
+
+      Alert.alert(
+        'Cadstro realizado com sucesso!',
+        'Você já pode fazer login na aplicação.',
+      );
+
+      api.post('/users', data);
+      navigation.goBack();
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err);
